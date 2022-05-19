@@ -35,13 +35,14 @@ def check_events(ai_settings, screen,ship,bullets):
 			check_keyup_events(event,ship)
 			
 				
-def update_screen(ai_settings,screen,ship,bullets):
+def update_screen(ai_settings,screen,ship,alien,bullets):
 	#Redesenha a tela a cada passagem pelo laco
 	screen.fill(ai_settings.bg_color)
 	#Redesenha todos o projéteis atrás da espaçonave e dos alienígenas
 	for bullet in bullets.sprites():
 		bullet.draw_bullet()
 	ship.blitme()
+	alien.blitme()
 		
 	#Deixa a tela mais recente visível
 	pygame.display.flip()
