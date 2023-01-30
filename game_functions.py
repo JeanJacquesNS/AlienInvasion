@@ -26,7 +26,7 @@ def check_keyup_events(event,ship):
 	elif event.key==pygame.K_LEFT:
 		ship.moving_left = False
 		
-def check_events(ai_settings, screen,ship,bullets,stats,play_button):
+def check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets):
 	#Observa eventos de teclado e de mouse
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -37,12 +37,21 @@ def check_events(ai_settings, screen,ship,bullets,stats,play_button):
 			check_keyup_events(event,ship)
 		elif event.type==pygame.MOUSEBUTTONDOWN:
 			mouse_x,mouse_y = pygame.mouse.get_pos()
-			check_play_button(stats,play_button,mouse_x,mouse_y)
+			check_play_button(ai_settings,screen,stats,play_button,ship,aliens, bullets,mouse_x,mouse_y)
 			
-def check_play_button(stats,play_button,mouse_x,mouse_y):
+def check_play_button(ai_settings,screen,stats,play_button,ship,aliens,bullets,mouse_x,mouse_y):
 	#Inicia um novo jogo quando o jogador clicar em Play.
 	if play_button.rect.collidepoint(mouse_x,mouse_y):
+		stats.reset_stats()
 		stats.game_active = True
+		
+		#Esvazia a lista de alienígenas e de projéteis
+		aliens.empty()
+		bullets.empty()
+		
+		#Cria uma nova frota e centraliza a espaçonave
+		create_fleet(ai_settings,screen,ship,aliens)
+		ship.center_ship()
 						
 def update_screen(ai_settings,screen,stats,ship,aliens,bullets,play_button):
 	#Redesenha a tela a cada passagem pelo laco
